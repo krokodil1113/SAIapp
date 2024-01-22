@@ -1,0 +1,59 @@
+{
+  "changelogDate": "20240106175518",
+  "dto": "mapstruct",
+  "entityTableName": "ticker",
+  "fields": [
+    {
+      "fieldName": "currency",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "displaySymbol",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "figi",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mic",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "shareClassFIGI",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "symbol",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "symbol2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Ticker",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "ticker",
+      "relationshipName": "ownedBy",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

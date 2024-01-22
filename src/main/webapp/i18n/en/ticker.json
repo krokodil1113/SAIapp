@@ -1,0 +1,33 @@
+{
+  "tradingApp": {
+    "ticker": {
+      "home": {
+        "title": "Tickers",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Ticker",
+        "createOrEditLabel": "Create or edit a Ticker",
+        "notFound": "No Tickers found"
+      },
+      "created": "A new Ticker is created with identifier {{ param }}",
+      "updated": "A Ticker is updated with identifier {{ param }}",
+      "deleted": "A Ticker is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Ticker {{ id }}?"
+      },
+      "detail": {
+        "title": "Ticker"
+      },
+      "id": "ID",
+      "currency": "Currency",
+      "description": "Description",
+      "displaySymbol": "Display Symbol",
+      "figi": "Figi",
+      "mic": "Mic",
+      "shareClassFIGI": "Share Class FIGI",
+      "symbol": "Symbol",
+      "symbol2": "Symbol 2",
+      "type": "Type",
+      "ownedBy": "Owned By"
+    }
+  }
+}

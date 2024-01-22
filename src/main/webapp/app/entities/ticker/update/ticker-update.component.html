@@ -1,0 +1,115 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-ticker-heading" data-cy="TickerCreateUpdateHeading" jhiTranslate="tradingApp.ticker.home.createOrEditLabel">
+        Create or edit a Ticker
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.currency" for="field_currency">Currency</label>
+          <input type="text" class="form-control" name="currency" id="field_currency" data-cy="currency" formControlName="currency" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.displaySymbol" for="field_displaySymbol">Display Symbol</label>
+          <input
+            type="text"
+            class="form-control"
+            name="displaySymbol"
+            id="field_displaySymbol"
+            data-cy="displaySymbol"
+            formControlName="displaySymbol"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.figi" for="field_figi">Figi</label>
+          <input type="text" class="form-control" name="figi" id="field_figi" data-cy="figi" formControlName="figi" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.mic" for="field_mic">Mic</label>
+          <input type="text" class="form-control" name="mic" id="field_mic" data-cy="mic" formControlName="mic" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.shareClassFIGI" for="field_shareClassFIGI">Share Class FIGI</label>
+          <input
+            type="text"
+            class="form-control"
+            name="shareClassFIGI"
+            id="field_shareClassFIGI"
+            data-cy="shareClassFIGI"
+            formControlName="shareClassFIGI"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.symbol" for="field_symbol">Symbol</label>
+          <input type="text" class="form-control" name="symbol" id="field_symbol" data-cy="symbol" formControlName="symbol" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.symbol2" for="field_symbol2">Symbol 2</label>
+          <input type="text" class="form-control" name="symbol2" id="field_symbol2" data-cy="symbol2" formControlName="symbol2" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.type" for="field_type">Type</label>
+          <input type="text" class="form-control" name="type" id="field_type" data-cy="type" formControlName="type" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="tradingApp.ticker.ownedBy" for="field_ownedBy">Owned By</label>
+          <select
+            class="form-control"
+            id="field_ownedBy"
+            data-cy="ownedBy"
+            name="ownedBy"
+            formControlName="ownedBy"
+            [compareWith]="compareUser"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.login }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

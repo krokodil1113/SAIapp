@@ -1,0 +1,68 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="ticker">
+      <h2 data-cy="tickerDetailsHeading"><span jhiTranslate="tradingApp.ticker.detail.title">Ticker</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ ticker.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.currency">Currency</span></dt>
+        <dd>
+          <span>{{ ticker.currency }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.description">Description</span></dt>
+        <dd>
+          <span>{{ ticker.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.displaySymbol">Display Symbol</span></dt>
+        <dd>
+          <span>{{ ticker.displaySymbol }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.figi">Figi</span></dt>
+        <dd>
+          <span>{{ ticker.figi }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.mic">Mic</span></dt>
+        <dd>
+          <span>{{ ticker.mic }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.shareClassFIGI">Share Class FIGI</span></dt>
+        <dd>
+          <span>{{ ticker.shareClassFIGI }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.symbol">Symbol</span></dt>
+        <dd>
+          <span>{{ ticker.symbol }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.symbol2">Symbol 2</span></dt>
+        <dd>
+          <span>{{ ticker.symbol2 }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.type">Type</span></dt>
+        <dd>
+          <span>{{ ticker.type }}</span>
+        </dd>
+        <dt><span jhiTranslate="tradingApp.ticker.ownedBy">Owned By</span></dt>
+        <dd>
+          <span>{{ ticker.ownedBy?.login }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/ticker', ticker.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -93,6 +93,17 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
+    @OneToMany(mappedBy = "ownedBy", cascade = CascadeType.ALL)
+    private Set<Ticker> thickers = new HashSet<>();
+
+    public Set<Ticker> getThickers() {
+        return thickers;
+    }
+
+    public void setThickers(Set<Ticker> thickers) {
+        this.thickers = thickers;
+    }
+
     public Long getId() {
         return id;
     }

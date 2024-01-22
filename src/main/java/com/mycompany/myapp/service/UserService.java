@@ -9,6 +9,7 @@ import com.mycompany.myapp.security.AuthoritiesConstants;
 import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.service.dto.AdminUserDTO;
 import com.mycompany.myapp.service.dto.UserDTO;
+import java.io.File;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -22,6 +23,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import tech.jhipster.security.RandomUtil;
 
 /**
@@ -273,8 +276,51 @@ public class UserService {
             });
     }
 
+    private final String pythonApiUrl = "http://127.0.0.1:5003/info";
+    private static final String ROOT_FOLDER = "C://Users/Ivan/Desktop/Projects/ROOT";
+
     @Transactional(readOnly = true)
     public Page<AdminUserDTO> getAllManagedUsers(Pageable pageable) {
+        System.out.println("***********************************************************************getAllManagedUsers");
+        WebClient webClient = WebClient.create();
+
+        // Make a GET request to the Python API
+        String pythonApiResponse = webClient.get().uri(pythonApiUrl).retrieve().bodyToMono(String.class).block(); // block() is used here for simplicity, but in a real application, you might want to handle the response asynchronously
+        System.out.println("==================  " + pythonApiResponse);
+
+        // open file system
+        List<String> result = new ArrayList<>();
+        File rootFolder = new File(ROOT_FOLDER);
+        if (rootFolder.exists() && rootFolder.isDirectory()) {
+            File[] files = rootFolder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    result.add(file.getName());
+                }
+            }
+        }
+        for (String s : result) {
+            System.out.println("------------this are the names of files and folders-------->  " + s);
+        }
+
+        //Create Folder
+        if (rootFolder.exists() && rootFolder.isDirectory()) {
+            File newFolder = new File(rootFolder, "TESTtest");
+
+            if (!newFolder.exists()) {
+                boolean success = newFolder.mkdir();
+                if (success) {
+                    System.out.println("Folder created successfully");
+                } else {
+                    System.err.println("Failed to create folder");
+                }
+            } else {
+                System.err.println("Folder already exists");
+            }
+        } else {
+            System.err.println("Root folder does not exist or is not a directory");
+        }
+
         return userRepository.findAll(pageable).map(AdminUserDTO::new);
     }
 

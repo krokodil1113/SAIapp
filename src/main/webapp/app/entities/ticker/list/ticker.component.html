@@ -1,0 +1,163 @@
+<div>
+  <h2 id="page-heading" data-cy="TickerHeading">
+    <span jhiTranslate="tradingApp.ticker.home.title">Tickers</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="tradingApp.ticker.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-ticker"
+        [routerLink]="['/ticker/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="tradingApp.ticker.home.createLabel">Create a new Ticker</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="tickers?.length === 0">
+    <span jhiTranslate="tradingApp.ticker.home.notFound">No Tickers found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="tickers && tickers.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="currency">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.currency">Currency</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.description">Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="displaySymbol">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.displaySymbol">Display Symbol</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="figi">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.figi">Figi</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="mic">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.mic">Mic</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="shareClassFIGI">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.shareClassFIGI">Share Class FIGI</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="symbol">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.symbol">Symbol</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="symbol2">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.symbol2">Symbol 2</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="type">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.type">Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="ownedBy.login">
+            <div class="d-flex">
+              <span jhiTranslate="tradingApp.ticker.ownedBy">Owned By</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticker of tickers; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/ticker', ticker.id, 'view']">{{ ticker.id }}</a>
+          </td>
+          <td>{{ ticker.currency }}</td>
+          <td>{{ ticker.description }}</td>
+          <td>{{ ticker.displaySymbol }}</td>
+          <td>{{ ticker.figi }}</td>
+          <td>{{ ticker.mic }}</td>
+          <td>{{ ticker.shareClassFIGI }}</td>
+          <td>{{ ticker.symbol }}</td>
+          <td>{{ ticker.symbol2 }}</td>
+          <td>{{ ticker.type }}</td>
+          <td>
+            {{ ticker.ownedBy?.login }}
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <a [routerLink]="['/ticker', ticker.symbol, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </a>
+
+              <a [routerLink]="['/ticker', ticker.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </a>
+
+              <button type="submit" (click)="delete(ticker)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="tickers && tickers.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
